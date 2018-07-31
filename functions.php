@@ -44,7 +44,7 @@ if ( ! function_exists( 'humescores_setup' ) ) :
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'humescores' ),
+			'primary' => esc_html__( 'Primary', 'humescores' ),
 		) );
 
 		/*
@@ -83,6 +83,9 @@ if ( ! function_exists( 'humescores_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'humescores_setup' );
 
+
+
+
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -97,6 +100,9 @@ function humescores_content_width() {
 	$GLOBALS['content_width'] = apply_filters( 'humescores_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'humescores_content_width', 0 );
+
+
+
 
 /**
  * Register widget area.
@@ -116,21 +122,33 @@ function humescores_widgets_init() {
 }
 add_action( 'widgets_init', 'humescores_widgets_init' );
 
+
+
+
 /**
  * Enqueue scripts and styles.
  */
 function humescores_scripts() {
+	// Styles =====
+	// Enqueue google Fonts: Source Sans Pro and PT Serif
+	wp_enqueue_style( 'humescores-googleFonts', '//fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i|Source+Sans+Pro:200,300,400,400i,600,900' );
+
 	wp_enqueue_style( 'humescores-style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'humescores-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
+	// Scripts
+	wp_enqueue_script( 'humescores-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 	wp_enqueue_script( 'humescores-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'humescores_scripts' );
+
+
+
 
 /**
  * Implement the Custom Header feature.
